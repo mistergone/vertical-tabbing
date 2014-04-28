@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    	<script type="text/javascript">
+    		$(document).ready(function() {
+	            // Set vertical tabbing
+	            for (c = 1; c <= 3; c++) {
+	                var column = $("[data-column='" + c + "']");
+	                var tabOrder = 1;
+	                column.find("input").each(function() {
+	                    var i = (c * 100) + tabOrder;
+	                    $(this).attr("data-tab-order", i);
+	                    tabOrder++;
+	                });
+	                if (c == 3) {
+	                	$("[data-column='" + c + "'] input").attr('disabled', true);
+	                }
+	            }
+    			$('#the-table').on('keydown', 'input', function(event) {
+		    		var code = event.keyCode || event.which;
+		    		if (code == 9) {
+		    			var tabOrder = parseInt($(this).attr('data-tab-order'));
+		    			if (event.shiftKey) {
+		    				var nextTab = tabOrder - 1;
+		    			}
+		    			else {
+		    				var nextTab = tabOrder + 1;	
+		    			}
+		    			
+		    			console.log("First Test:" + tabOrder + " " + nextTab);
+		    			var nextInput = $('[data-tab-order="' + nextTab + '"]');
+		    			if ( nextInput.length > 0 && nextInput.attr('disabled') == undefined ) {
+		    				event.preventDefault();
+		    				nextInput.focus();
+		    			}
+
+		    			else {
+		    				if (event.shiftKey) {
+		    					var column = Math.floor(tabOrder / 100) - 1
+		    					nextInput = $('[data-column="' + column + '"] input').last();
+		    				}
+		    				else {
+		    					nextTab = Math.ceil(tabOrder / 100) * 100  + 1;
+		    					nextInput = $('[data-tab-order="' + nextTab + '"]');
+		    				}
+		    				console.log("Second Test:" + tabOrder + " " + nextTab);
+			    			if ( nextInput.length > 0 && nextInput.attr('disabled') == undefined ) {
+			    				event.preventDefault();
+			    				nextInput.focus();
+			    			}
+		    			}
+		    		}
+    			});
+
+    		});
+
+    	</script>
+    </head>
+    <body>
+    	<h1>Vertical Tabbing</h1>
+    	<p>This is a sample page contianing the code that will eventually become a plugin.</p>
+    	<ul>
+    		<li><a href="#">Link one</a></li>
+    		<li><a href="#">Link two</a></li>
+    		<li><a href="#">Link three</a></li>
+    		<li><a href="#">Link four</a></li>
+    		<li><a href="#">Link five</a></li>
+    	</ul>
+    	<table id="the-table">
+    		<tr>
+    			<td data-column="0">&nbsp;</th>
+    			<th data-column="1">Column 1</th>
+    			<th data-column="2">Column 2</th>
+    			<th data-column="3">Column 3</th>
+    		</tr>
+    		<tr>
+    			<th data-column="0">Row 1</th>
+    			<td data-column="1"><input type="text"></input></td>
+				<td data-column="2"><input type="text"></input></td>
+				<td data-column="3"><input type="text"></input></td>
+			</tr>
+    		<tr>
+    			<th data-column="0">Row 2</th>
+    			<td data-column="1"><input type="text"></input></td>
+				<td data-column="2"><input type="text"></input></td>
+				<td data-column="3"><input type="text"></input></td>
+			</tr>
+    		<tr>
+    			<th data-column="0">Row 3</th>
+    			<td data-column="1"><input type="text"></input></td>
+				<td data-column="2"><input type="text"></input></td>
+				<td data-column="3"><input type="text"></input></td>
+			</tr>
+    		<tr>
+    			<th data-column="0">Row 4</th>
+    			<td data-column="1"><input type="text"></input></td>
+				<td data-column="2"><input type="text"></input></td>
+				<td data-column="3"><input type="text"></input></td>
+			</tr>
+    		<tr>
+    			<th data-column="0">Row 5</th>
+    			<td data-column="1"><input type="text"></input></td>
+				<td data-column="2"><input type="text"></input></td>
+				<td data-column="3"><input type="text"></input></td>
+			</tr>
+    		<tr>
+    			<th data-column="0">Row 6</th>
+    			<td data-column="1"><input type="text"></input></td>
+				<td data-column="2"><input type="text"></input></td>
+				<td data-column="3"><input type="text"></input></td>
+			</tr>
+		</table>
+    	<ul>
+    		<li><a href="#">More Link one</a></li>
+    		<li><a href="#">More Link two</a></li>
+    		<li><a href="#">More Link three</a></li>
+    		<li><a href="#">More Link four</a></li>
+    		<li><a href="#">More Link five</a></li>
+    	</ul>
+    </body>
+</html>
